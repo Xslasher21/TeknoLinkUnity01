@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Notification_btn : MonoBehaviour
 {
     public Text notif_message;
+    public Text notif_sender;
     public Text time_stamp;
     public Image notif_logo;
     public Button btn;

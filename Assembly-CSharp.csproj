@@ -63,11 +63,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Dashboard\ActivityEvent.cs" />
+    <Compile Include="Assets\Scripts\Dashboard\ActivityUI.cs" />
+    <Compile Include="Assets\Scripts\Dashboard\AnnouncementUI.cs" />
     <Compile Include="Assets\Scripts\Dashboard\Calendar.cs" />
+    <Compile Include="Assets\Scripts\Dashboard\ChatRoom.cs" />
+    <Compile Include="Assets\Scripts\Dashboard\ChatSystem.cs" />
+    <Compile Include="Assets\Scripts\Dashboard\CommunityUI.cs" />
     <Compile Include="Assets\Scripts\Dashboard\DashboardUI.cs" />
     <Compile Include="Assets\Scripts\Dashboard\Database.cs" />
+    <Compile Include="Assets\Scripts\Dashboard\Message.cs" />
     <Compile Include="Assets\Scripts\Dashboard\Notification_btn.cs" />
+    <Compile Include="Assets\Scripts\Dashboard\ScheduleUI.cs" />
+    <Compile Include="Assets\Scripts\Dashboard\Skill.cs" />
     <Compile Include="Assets\Scripts\Dashboard\UserInfo.cs" />
+    <Compile Include="Assets\Scripts\Data\Notification.cs" />
+    <Compile Include="Assets\Scripts\Data\Student.cs" />
+    <Compile Include="Assets\Scripts\Data\User.cs" />
+    <Compile Include="Assets\Scripts\Data\ViewAllUsers.cs" />
     <Compile Include="Assets\Scripts\Login\Login.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
@@ -266,6 +279,42 @@
     </Reference>
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.13f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4.Streams">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/K4os.Compression.LZ4.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Hash.xxHash">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/K4os.Hash.xxHash.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="Ubiety.Dns.Core">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/Ubiety.Dns.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Zstandard.Net">
+      <HintPath>C:/Users/gwapo/OneDrive - Cebu Institute of Technology University/Documents/School/CS321/TeknoLink/TeknoLink/Assets/Scripts/Data/Zstandard.Net.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.13f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

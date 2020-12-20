@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 public class Calendar : MonoBehaviour
 {
+    [SerializeField] private GameObject schedule = null;
+    [SerializeField] private GameObject schedule_parent = null;
+    [SerializeField] private TextMeshProUGUI date = null;
+    private List<GameObject> scheduleList = new List<GameObject>();
+
     /// <summary>
     /// Cell or slot in the calendar. All the information each day should now about itself
     /// </summary>
@@ -14,16 +20,23 @@ public class Calendar : MonoBehaviour
         public int dayNum;
         public Color dayColor;
         public GameObject obj;
+        public Button button;
+        public List<ActivityEvent> events;
+        public TextMeshProUGUI Date;
 
         /// <summary>
         /// Constructor of Day
         /// </summary>
-        public Day(int dayNum, Color dayColor, GameObject obj)
+        public Day(int dayNum, Color dayColor, GameObject obj,TextMeshProUGUI date)
         {
             this.dayNum = dayNum;
             this.obj = obj;
+            button = obj.GetComponentInChildren<Button>();
+            //Debug.Log(button);
             UpdateColor(dayColor);
             UpdateDay(dayNum);
+            events = new List<ActivityEvent>();
+            Date = date;
         }
 
         /// <summary>
@@ -53,6 +66,27 @@ public class Calendar : MonoBehaviour
         }
     }
 
+    public void AddEvents(List<ActivityEvent> e,Day d)
+    {
+        foreach (GameObject item in scheduleList)
+        {
+            Destroy(item);
+        }
+
+        scheduleList.Clear();
+        d.Date.text = "Day " + (d.dayNum + 1).ToString();
+
+        foreach (ActivityEvent item in e)
+        {
+            GameObject gb = Instantiate(schedule, schedule_parent.transform);
+
+            ScheduleUI s = gb.GetComponent<ScheduleUI>();
+            s.event_name.text = item.activity.title;
+            s.time.text = item.start_time.ToString();
+
+            scheduleList.Add(gb);
+        }
+    }
     /// <summary>
     /// All the days in the month. After we make our first calendar we store these days in this list so we do not have to recreate them every time.
     /// </summary>
@@ -67,7 +101,7 @@ public class Calendar : MonoBehaviour
     /// <summary>
     /// This is the text object that displays the current month and year
     /// </summary>
-    public Text MonthAndYear;
+    public TextMeshProUGUI MonthAndYear;
 
     /// <summary>
     /// this currDate is the date our Calendar is currently on. The year and month are based on the calendar, 
@@ -84,6 +118,7 @@ public class Calendar : MonoBehaviour
         UpdateCalendar(DateTime.Now.Year, DateTime.Now.Month);
     }
 
+
     /// <summary>
     /// Anytime the Calendar is changed we call this to make sure we have the right days for the right month/year
     /// </summary>
@@ -92,14 +127,43 @@ public class Calendar : MonoBehaviour
         DateTime temp = new DateTime(year, month, 1);
         currDate = temp;
         MonthAndYear.text = temp.ToString("MMMM") + " " + temp.Year.ToString();
-        int startDay = GetMonthStartDay(year,month);
+        int startDay = GetMonthStartDay(year, month);
         int endDay = GetTotalNumberOfDays(year, month);
-        
+
+        date.text = "Date";
+
 
         ///Create the days
         ///This only happens for our first Update Calendar when we have no Day objects therefore we must create them
 
-        if(days.Count == 0)
+        int x = 0;
+        int len = Database.Instance.schedules.Count;
+        while (x < len)
+        {
+            if (temp.ToString("M-y") == Database.Instance.schedules[x].activityEvent.start_date.ToString("M-y"))
+            {
+                break;
+            }
+            x++;
+        }
+        Stack<ActivityEvent> ev = new Stack<ActivityEvent>();
+        while (x < len)
+        {
+            if (temp.ToString("M-y") == Database.Instance.schedules[x].activityEvent.start_date.ToString("M-y"))
+            {
+                ev.Push(Database.Instance.schedules[x].activityEvent);
+                Debug.Log("work: " + len);
+
+            }
+            else
+            {
+                break;
+            }
+            x++;
+        }
+
+
+        if (days.Count == 0)
         {
             for (int w = 0; w < 6; w++)
             {
@@ -109,12 +173,21 @@ public class Calendar : MonoBehaviour
                     int currDay = (w * 7) + i;
                     if (currDay < startDay || currDay - startDay >= endDay)
                     {
-                        newDay = new Day(currDay - startDay, Color.grey,weeks[w].GetChild(i).gameObject);
+                        newDay = new Day(currDay - startDay, Color.grey, weeks[w].GetChild(i).gameObject,date);
                     }
                     else
                     {
-                        newDay = new Day(currDay - startDay, Color.white,weeks[w].GetChild(i).gameObject);
+                        newDay = new Day(currDay - startDay, Color.white, weeks[w].GetChild(i).gameObject,date);
                     }
+
+                    while (ev.Count > 0 && newDay.dayNum + 1 == ev.Peek().GetStartDate().Day)
+                    {
+                        newDay.events.Add(ev.Pop());
+                        newDay.UpdateColor(Color.yellow);
+
+                    }
+
+                    newDay.button.onClick.AddListener(() => AddEvents(newDay.events,newDay));
                     days.Add(newDay);
                 }
             }
@@ -123,9 +196,9 @@ public class Calendar : MonoBehaviour
         ///Since we already have the days objects, we can just update them rather than creating new ones
         else
         {
-            for(int i = 0; i < 42; i++)
+            for (int i = 0; i < 42; i++)
             {
-                if(i < startDay || i - startDay >= endDay)
+                if (i < startDay || i - startDay >= endDay)
                 {
                     days[i].UpdateColor(Color.grey);
                 }
@@ -135,17 +208,27 @@ public class Calendar : MonoBehaviour
                 }
 
                 days[i].UpdateDay(i - startDay);
+                days[i].events.Clear();
+                while (ev.Count > 0 && days[i].dayNum + 1 == ev.Peek().GetStartDate().Day)
+                {
+                    days[i].events.Add(ev.Pop());
+                    days[i].UpdateColor(Color.yellow);
+
+                }
+
+                //days[i].button.onClick.AddListener(() => AddEvents(days[i].events));
+
             }
         }
 
         ///This just checks if today is on our calendar. If so, we highlight it in green
-        if(DateTime.Now.Year == year && DateTime.Now.Month == month)
+        if (DateTime.Now.Year == year && DateTime.Now.Month == month)
         {
             days[(DateTime.Now.Day - 1) + startDay].UpdateColor(Color.green);
         }
 
     }
-
+   
     /// <summary>
     /// This returns which day of the week the month is starting on
     /// </summary>
